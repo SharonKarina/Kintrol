@@ -4,18 +4,113 @@
  */
 package View;
 
+import Conexiones.Conexion;
+import Controller.controllerMembresias;
+import Model.Membresia;
+import Model.MembresiaDAO;
+
+import java.sql.Connection;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import java.sql.SQLException;
+
+
 /**
  *
  * @author karin
  */
 public class GestionMembresias extends javax.swing.JFrame {
+    private controllerMembresias controller;
+    private DefaultTableModel modeloTabla;
 
+    
     /**
      * Creates new form GestionMembresias
      */
     public GestionMembresias() {
         initComponents();
+        
+        // Configurar controlador
+        try {
+            Connection conn = Conexion.getCnx().getCnn();
+            controller = new controllerMembresias(new MembresiaDAO(conn));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al conectar: " + e.getMessage());
+        }
     }
+    
+    private void agregarMembresia() {
+        try {
+            Membresia m = new Membresia(
+                Integer.parseInt(idMembresíaMTextField.getText()),
+                Integer.parseInt(limiteMTextField.getText()),
+                fechaInicioMTextField.getText(),
+                Integer.parseInt(duracionMTextField1.getText()),
+                Integer.parseInt(idAdministradorMTextField1.getText()),
+                Integer.parseInt(idUbicacionMTextField1.getText())
+            );
+            if (controller.crearMembresia(m)) {
+                JOptionPane.showMessageDialog(this, "Membresía agregada correctamente");
+                listarMembresias();
+            } else {
+                JOptionPane.showMessageDialog(this, "No se pudo agregar");
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Verifica los campos numéricos");
+        }
+    }
+    
+    private void actualizarMembresia() {
+        try {
+            Membresia m = new Membresia(
+                Integer.parseInt(idMembresíaMTextField.getText()),
+                Integer.parseInt(limiteMTextField.getText()),
+                fechaInicioMTextField.getText(),
+                Integer.parseInt(duracionMTextField1.getText()),
+                Integer.parseInt(idAdministradorMTextField1.getText()),
+                Integer.parseInt(idUbicacionMTextField1.getText())
+            );
+            if (controller.actualizarMembresia(m)) {
+                JOptionPane.showMessageDialog(this, "Membresía actualizada");
+                listarMembresias();
+            } else {
+                JOptionPane.showMessageDialog(this, "No se pudo actualizar");
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Verifica los campos numéricos");
+        }
+    }
+
+    private void eliminarMembresia() {
+        try {
+            int id = Integer.parseInt(idMembresíaMTextField.getText());
+            if (controller.eliminarMembresia(id)) {
+                JOptionPane.showMessageDialog(this, "Eliminada correctamente");
+                listarMembresias();
+            } else {
+                JOptionPane.showMessageDialog(this, "No se encontró la membresía");
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "ID inválido");
+        }
+    }
+
+    private void listarMembresias() {
+        modeloTabla.setRowCount(0);
+        for (Membresia m : controller.listarMembresias()) {
+            modeloTabla.addRow(new Object[]{
+                m.getIdMembresia(),
+                m.getLimite(),
+                m.getFechaInicio(),
+                m.getDuracion(),
+                m.getIdAdministrador(),
+                m.getIdUbicacion()
+            });
+        }
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -230,22 +325,41 @@ public class GestionMembresias extends javax.swing.JFrame {
         agregarMButton.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         agregarMButton.setText("Agregar");
         agregarMButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        agregarMButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                agregarMButtonActionPerformed(evt);
+            }
+        });
 
         actualizarMButton.setBackground(new java.awt.Color(222, 235, 181));
         actualizarMButton.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         actualizarMButton.setText("Actualizar");
-        actualizarMButton.setActionCommand("Actualizar");
         actualizarMButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        actualizarMButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                actualizarMButtonActionPerformed(evt);
+            }
+        });
 
         eliminarMButton.setBackground(new java.awt.Color(222, 235, 181));
         eliminarMButton.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         eliminarMButton.setText("Eliminar");
         eliminarMButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        eliminarMButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eliminarMButtonActionPerformed(evt);
+            }
+        });
 
         verDetallesMButton.setBackground(new java.awt.Color(222, 235, 181));
         verDetallesMButton.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         verDetallesMButton.setText("Ver Detalles");
         verDetallesMButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        verDetallesMButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                verDetallesMButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout papelBotonesMLayout = new javax.swing.GroupLayout(papelBotonesM);
         papelBotonesM.setLayout(papelBotonesMLayout);
@@ -377,7 +491,27 @@ public class GestionMembresias extends javax.swing.JFrame {
 
     private void listarMButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarMButtonActionPerformed
         // TODO add your handling code here:
+        listarMButton.addActionListener(e -> listarMembresias());
     }//GEN-LAST:event_listarMButtonActionPerformed
+
+    private void actualizarMButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarMButtonActionPerformed
+        // TODO add your handling code here:
+        actualizarMButton.addActionListener(e -> actualizarMembresia());
+    }//GEN-LAST:event_actualizarMButtonActionPerformed
+
+    private void eliminarMButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarMButtonActionPerformed
+        // TODO add your handling code here:
+        eliminarMButton.addActionListener(e -> eliminarMembresia());
+    }//GEN-LAST:event_eliminarMButtonActionPerformed
+
+    private void agregarMButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarMButtonActionPerformed
+        // TODO add your handling code here:
+        agregarMButton.addActionListener(e -> agregarMembresia());
+    }//GEN-LAST:event_agregarMButtonActionPerformed
+
+    private void verDetallesMButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verDetallesMButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_verDetallesMButtonActionPerformed
 
     /**
      * @param args the command line arguments
