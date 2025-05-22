@@ -4,19 +4,67 @@
  */
 package View;
 
+import Model.Administrador;
+import Model.Membresia;
+import Model.Ubicacion;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author karin
  */
 public class DetallesMembresia extends javax.swing.JDialog {
 
+    private DefaultTableModel modeloTablaAdmin;
+    private DefaultTableModel modeloTablaUbicacion;
+    
     /**
      * Creates new form DetallesMembresia
      */
     public DetallesMembresia(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        
+        // Inicializar modelo de la tabla de Administradores
+        modeloTablaAdmin = new DefaultTableModel(
+            new Object[]{"Nombre", "Apellido", "Correo", "Nacimiento", "Edad"}, 0);
+        tablaAdministrador.setModel(modeloTablaAdmin);
+
+        // Inicializar modelo de la tabla de Ubicación
+        modeloTablaUbicacion = new DefaultTableModel(
+            new Object[]{"ID", "País", "Ciudad"}, 0);
+        tablaUbicacion.setModel(modeloTablaUbicacion);
     }
+    
+    public void setDatosMembresia(Membresia m) {
+        idMembresíaDMTextField.setText(String.valueOf(m.getIdMembresia()));
+        limiteDMTextField.setText(String.valueOf(m.getLimite()));
+        fechaInicioDMTextField.setText(String.valueOf(m.getFechaInicio()));
+        duracionDMTextField1.setText(String.valueOf(m.getDuracion()));
+        idAdministradorDMTextField1.setText(String.valueOf(m.getIdAdministrador()));
+        idUbicacionDMTextField1.setText(String.valueOf(m.getIdUbicacion()));
+    }
+
+    public void setDatosAdministrador(Administrador a) {
+        modeloTablaAdmin.setRowCount(0);
+        modeloTablaAdmin.addRow(new Object[]{
+            a.getNombre(),
+            a.getApellido(),
+            a.getCorreo(),
+            a.getFechaNacimiento(),
+            a.getEdad()
+        });
+    }
+
+    public void setDatosUbicacion(Ubicacion u) {
+        modeloTablaUbicacion.setRowCount(0);
+        modeloTablaUbicacion.addRow(new Object[]{
+            u.getIdUbicacion(),
+            u.getPais(),
+            u.getCiudad()
+        });
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -225,7 +273,7 @@ public class DetallesMembresia extends javax.swing.JDialog {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -263,7 +311,7 @@ public class DetallesMembresia extends javax.swing.JDialog {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {

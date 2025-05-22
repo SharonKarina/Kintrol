@@ -6,14 +6,20 @@ package View;
 
 import Conexiones.Conexion;
 import Controller.controllerMembresias;
+import Model.Administrador;
+import Model.AdministradorDAO;
 import Model.Membresia;
 import Model.MembresiaDAO;
+import Model.Ubicacion;
+import Model.UbicacionDAO;
 
 import java.sql.Connection;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -403,7 +409,7 @@ public class GestionMembresias extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Byte.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Integer.class, java.lang.Byte.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -511,6 +517,36 @@ public class GestionMembresias extends javax.swing.JFrame {
 
     private void verDetallesMButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verDetallesMButtonActionPerformed
         // TODO add your handling code here:
+        int filaSeleccionada = tablaMembresias.getSelectedRow();
+        if (filaSeleccionada != -1) {
+            try {
+                int idMembresia = Integer.parseInt(tablaMembresias.getValueAt(filaSeleccionada, 0).toString());
+                
+                MembresiaDAO membresiaDAO = new MembresiaDAO();
+                Membresia membresia = membresiaDAO.obtenerPorId(idMembresia);
+                
+                if (membresia != null) {
+                    AdministradorDAO adminDAO = new AdministradorDAO();
+                    Administrador admin = adminDAO.obtenerPorId(membresia.getIdAdministrador());
+                    
+                    UbicacionDAO ubiDAO = new UbicacionDAO();
+                    Ubicacion ubicacion = ubiDAO.obtenerPorId(membresia.getIdUbicacion());
+                    
+                    DetallesMembresia dialogo = new DetallesMembresia(this, true);
+                    dialogo.setDatosMembresia(membresia);
+                    dialogo.setDatosAdministrador(admin);
+                    dialogo.setDatosUbicacion(ubicacion);
+                    dialogo.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(this, "No se encontró la membresía.");
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(GestionMembresias.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Selecciona una fila para ver los detalles.");
+        }
+
     }//GEN-LAST:event_verDetallesMButtonActionPerformed
 
     /**
