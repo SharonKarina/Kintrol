@@ -4,6 +4,7 @@
  */
 package Model;
 
+import Conexiones.Conexion;
 import java.sql.*;
 
 /**
@@ -18,7 +19,7 @@ public class UbicacionDAO {
     }
 
     public UbicacionDAO() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.conn = Conexion.getCnx().getCnn();
     }
 
     public Ubicacion obtenerPorId(int id) throws SQLException {

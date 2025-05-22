@@ -4,6 +4,7 @@
  */
 package Model;
 
+import Conexiones.Conexion;
 import java.sql.*;
 import java.util.ArrayList;
 /**
@@ -18,7 +19,7 @@ public class MembresiaDAO {
     }
 
     public MembresiaDAO() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.conn = Conexion.getCnx().getCnn();
     }
     
     public ArrayList<Membresia> listar() throws SQLException {

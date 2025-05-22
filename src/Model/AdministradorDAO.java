@@ -4,6 +4,7 @@
  */
 package Model;
 
+import Conexiones.Conexion;
 import java.sql.*;
 
 /**
@@ -12,15 +13,15 @@ import java.sql.*;
  */
 public class AdministradorDAO {
     private Connection conn;
-    
-    public AdministradorDAO(Connection conn){
+
+    public AdministradorDAO(Connection conn) {
         this.conn = conn;
     }
 
     public AdministradorDAO() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.conn = Conexion.getCnx().getCnn();
     }
-    
+
     public Administrador obtenerPorId(int id) throws SQLException {
         String sql = "SELECT * FROM administrador WHERE idAdministrador = ?";
         PreparedStatement ps = conn.prepareStatement(sql);
@@ -38,5 +39,4 @@ public class AdministradorDAO {
         }
         return null;
     }
-    
 }
