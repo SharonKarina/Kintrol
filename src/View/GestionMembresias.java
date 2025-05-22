@@ -532,6 +532,11 @@ public class GestionMembresias extends javax.swing.JFrame {
                     UbicacionDAO ubiDAO = new UbicacionDAO();
                     Ubicacion ubicacion = ubiDAO.obtenerPorId(membresia.getIdUbicacion());
                     
+                    if (admin == null || ubicacion == null) {
+                        JOptionPane.showMessageDialog(this, "No se pudieron cargar todos los detalles.");
+                        return;
+                    }
+                    
                     DetallesMembresia dialogo = new DetallesMembresia(this, true);
                     dialogo.setDatosMembresia(membresia);
                     dialogo.setDatosAdministrador(admin);
