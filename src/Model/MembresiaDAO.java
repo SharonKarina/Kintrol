@@ -16,6 +16,10 @@ public class MembresiaDAO {
     public MembresiaDAO(Connection conn){
         this.conn = conn;
     }
+
+    public MembresiaDAO() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
     public ArrayList<Membresia> listar() throws SQLException {
         ArrayList<Membresia> lista = new ArrayList<>();
