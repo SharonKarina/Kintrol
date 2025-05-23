@@ -15,14 +15,14 @@ import java.util.logging.Logger;
  * @author karin
  */
 public class Conexion {
-    private String DRIVER = "";
-    private String URL = "";
-    private String USER = "";
-    private String PASSWORD = "contraseña";
+    private String DRIVER = "com.mysql.cj.jdbc.Driver";
+    private String URL = "jdbc:mysql://localhost:3306/db_kintrol";
+    private String USER = "root";
+    private String PASSWORD = "AlexitoKarina";
     
-    private Connection cnn = null;
+    private Connection cnn = null; //Conexión con la base de datos
     
-    private static Conexion cnx = null;
+    private static Conexion cnx = null; //Instancia singleton
     
     private Conexion() {
         try {
@@ -37,7 +37,8 @@ public class Conexion {
         }
     }
     
-    public static synchronized Conexion getCnx() {
+    //Obtiene la intancia del singleton
+    public static synchronized Conexion getCnx() { 
         if (cnx == null) {
             cnx = new Conexion();
         }
