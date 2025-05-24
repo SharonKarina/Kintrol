@@ -43,27 +43,22 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="panelTituloDM" alignment="0" max="32767" attributes="0"/>
-                              <Component id="panelMembresiasDM" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jSeparator3" alignment="0" max="32767" attributes="0"/>
-                              <Component id="panelAdministrador" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jSeparator4" alignment="0" max="32767" attributes="0"/>
-                              <Component id="panelUbicacion" alignment="0" max="32767" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="jSeparator3" max="32767" attributes="0"/>
+                      <Component id="panelMembresiasDM" alignment="0" max="32767" attributes="0"/>
+                      <Component id="panelTituloDM" alignment="1" max="32767" attributes="0"/>
+                      <Component id="panelAdministrador" alignment="1" max="32767" attributes="0"/>
+                      <Component id="panelUbicacion" alignment="0" max="32767" attributes="0"/>
                       <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          <Component id="actualizarMButton" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="cerrarDMButton" min="-2" pref="91" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                       </Group>
+                      <Component id="jSeparator4" alignment="0" max="32767" attributes="0"/>
                   </Group>
-                  <Component id="jScrollBar1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -72,32 +67,28 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jScrollBar1" alignment="0" max="32767" attributes="0"/>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="panelTituloDM" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="panelMembresiasDM" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="cerrarDMButton" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
-                          <Component id="jSeparator3" min="-2" pref="3" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="panelAdministrador" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jSeparator4" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="panelUbicacion" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                  <Component id="panelTituloDM" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="panelMembresiasDM" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="cerrarDMButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="actualizarMButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jSeparator3" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="panelAdministrador" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jSeparator4" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="panelUbicacion" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="12" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JScrollBar" name="jScrollBar1">
-        </Component>
         <Container class="javax.swing.JPanel" name="panelMembresiasDM">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -126,11 +117,11 @@
                               </Group>
                               <EmptySpace max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="idAdministradorDMTextField1" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="idAdministradorDMTextField1" alignment="0" pref="350" max="32767" attributes="0"/>
                                   <Component id="duracionDMTextField1" alignment="0" max="32767" attributes="0"/>
                                   <Component id="idMembresíaDMTextField" alignment="1" max="32767" attributes="0"/>
                                   <Component id="limiteDMTextField" alignment="1" max="32767" attributes="0"/>
-                                  <Component id="fechaInicioDMTextField" alignment="1" pref="350" max="32767" attributes="0"/>
+                                  <Component id="fechaInicioDMTextField" alignment="1" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
@@ -310,9 +301,9 @@
                   <Component id="jSeparator2" alignment="1" max="32767" attributes="0"/>
                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="0" pref="91" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="168" max="32767" attributes="0"/>
                           <Component id="jSeparator1" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="0" pref="258" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="335" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -376,8 +367,8 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" min="-2" pref="465" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="jScrollPane1" pref="481" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -385,8 +376,8 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" pref="54" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jScrollPane1" min="-2" pref="46" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -476,7 +467,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane2" min="-2" pref="54" max="-2" attributes="0"/>
+                      <Component id="jScrollPane2" min="-2" pref="46" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -544,6 +535,14 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cerrarDMButtonActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="actualizarMButton">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="jButton1"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="actualizarMButtonActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

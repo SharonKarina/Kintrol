@@ -36,6 +36,7 @@ public class GestionMembresias extends javax.swing.JFrame {
      */
     public GestionMembresias() {
         initComponents();
+        modeloTabla = (DefaultTableModel) tablaMembresias.getModel();
         
         // Configurar controlador
         try {
@@ -61,27 +62,6 @@ public class GestionMembresias extends javax.swing.JFrame {
                 listarMembresias();
             } else {
                 JOptionPane.showMessageDialog(this, "No se pudo agregar");
-            }
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Verifica los campos numéricos");
-        }
-    }
-    
-    private void actualizarMembresia() {
-        try {
-            Membresia m = new Membresia(
-                Integer.parseInt(idMembresíaMTextField.getText()),
-                Integer.parseInt(limiteMTextField.getText()),
-                fechaInicioMTextField.getText(),
-                Integer.parseInt(duracionMTextField1.getText()),
-                Integer.parseInt(idAdministradorMTextField1.getText()),
-                Integer.parseInt(idUbicacionMTextField1.getText())
-            );
-            if (controller.actualizarMembresia(m)) {
-                JOptionPane.showMessageDialog(this, "Membresía actualizada");
-                listarMembresias();
-            } else {
-                JOptionPane.showMessageDialog(this, "No se pudo actualizar");
             }
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Verifica los campos numéricos");
@@ -148,7 +128,6 @@ public class GestionMembresias extends javax.swing.JFrame {
         papelBotonesM = new javax.swing.JPanel();
         listarMButton = new javax.swing.JButton();
         agregarMButton = new javax.swing.JButton();
-        actualizarMButton = new javax.swing.JButton();
         eliminarMButton = new javax.swing.JButton();
         verDetallesMButton = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JSeparator();
@@ -337,16 +316,6 @@ public class GestionMembresias extends javax.swing.JFrame {
             }
         });
 
-        actualizarMButton.setBackground(new java.awt.Color(222, 235, 181));
-        actualizarMButton.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        actualizarMButton.setText("Actualizar");
-        actualizarMButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        actualizarMButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                actualizarMButtonActionPerformed(evt);
-            }
-        });
-
         eliminarMButton.setBackground(new java.awt.Color(222, 235, 181));
         eliminarMButton.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         eliminarMButton.setText("Eliminar");
@@ -372,15 +341,15 @@ public class GestionMembresias extends javax.swing.JFrame {
         papelBotonesMLayout.setHorizontalGroup(
             papelBotonesMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(papelBotonesMLayout.createSequentialGroup()
+                .addGap(41, 41, 41)
                 .addComponent(listarMButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(agregarMButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(actualizarMButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(eliminarMButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(verDetallesMButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(verDetallesMButton, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+                .addGap(44, 44, 44))
         );
         papelBotonesMLayout.setVerticalGroup(
             papelBotonesMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -389,7 +358,6 @@ public class GestionMembresias extends javax.swing.JFrame {
                 .addGroup(papelBotonesMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(listarMButton)
                     .addComponent(agregarMButton)
-                    .addComponent(actualizarMButton)
                     .addComponent(eliminarMButton)
                     .addComponent(verDetallesMButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -500,11 +468,6 @@ public class GestionMembresias extends javax.swing.JFrame {
         listarMButton.addActionListener(e -> listarMembresias());
     }//GEN-LAST:event_listarMButtonActionPerformed
 
-    private void actualizarMButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarMButtonActionPerformed
-        // TODO add your handling code here:
-        actualizarMButton.addActionListener(e -> actualizarMembresia());
-    }//GEN-LAST:event_actualizarMButtonActionPerformed
-
     private void eliminarMButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarMButtonActionPerformed
         // TODO add your handling code here:
         eliminarMButton.addActionListener(e -> eliminarMembresia());
@@ -591,7 +554,6 @@ public class GestionMembresias extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel GMid_Membresia;
-    private javax.swing.JButton actualizarMButton;
     private javax.swing.JButton agregarMButton;
     private javax.swing.JTextField duracionMTextField1;
     private javax.swing.JLabel duraciónM;

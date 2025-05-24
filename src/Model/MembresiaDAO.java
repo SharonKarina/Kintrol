@@ -24,7 +24,7 @@ public class MembresiaDAO {
     
     public ArrayList<Membresia> listar() throws SQLException {
         ArrayList<Membresia> lista = new ArrayList<>();
-        String sql = "SELECT * FROM membresia";
+        String sql = "SELECT * FROM membresias";
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(sql);
         while (rs.next()) {
@@ -34,7 +34,7 @@ public class MembresiaDAO {
     }
     
     public Membresia obtenerPorId(int id) throws SQLException {
-        String sql = "SELECT * FROM membresia WHERE idMembresia = ?";
+        String sql = "SELECT * FROM membresias WHERE id_membresia = ?";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
@@ -45,7 +45,7 @@ public class MembresiaDAO {
     }
     
     public boolean insertar(Membresia m) throws SQLException {
-        String sql = "INSERT INTO membresia (idMembresia, limite, fechainicio, duracion, idAdministrador, idUbicacion) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO membresias (id_membresia, limite, fecha_inicio, duracion, id_administrador, id_ubicacion) VALUES (?, ?, ?, ?, ?, ?)";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setInt(1, m.getIdMembresia());
         ps.setInt(2, m.getLimite());
@@ -57,7 +57,7 @@ public class MembresiaDAO {
     }
     
     public boolean actualizar(Membresia m) throws SQLException {
-        String sql = "UPDATE membresia SET limite=?, fechainicio=?, duracion=?, idAdministrador=?, idUbicacion=? WHERE idMembresia=?";
+        String sql = "UPDATE membresias SET limite=?, fecha_inicio=?, duracion=?, id_administrador=?, id_ubicacion=? WHERE id_membresia=?";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setInt(1, m.getLimite());
         ps.setString(2, m.getFechaInicio());
@@ -69,7 +69,7 @@ public class MembresiaDAO {
     }
     
     public boolean eliminar(int idMembresia) throws SQLException {
-        String sql = "DELETE FROM membresia WHERE idMembresia=?";
+        String sql = "DELETE FROM membresias WHERE id_membresia=?";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setInt(1, idMembresia);
         return ps.executeUpdate() > 0;
@@ -77,12 +77,12 @@ public class MembresiaDAO {
     
     private Membresia mapearMembresia(ResultSet rs) throws SQLException {
         return new Membresia(
-            rs.getInt("idMembresia"),
+            rs.getInt("id_membresia"),
             rs.getInt("limite"),
-            rs.getString("fechainicio"),
+            rs.getString("fecha_inicio"),
             rs.getInt("duracion"),
-            rs.getInt("idAdministrador"),
-            rs.getInt("idUbicacion")
+            rs.getInt("id_administrador"),
+            rs.getInt("id_ubicacion")
         );
     }
 }

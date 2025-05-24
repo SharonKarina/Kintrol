@@ -21,7 +21,7 @@ public class controllerMembresias {
         this.dao = dao;
     }
 
-    public List<Membresia> listarMembresias() {
+    public ArrayList<Membresia> listarMembresias() {
     try {
         return dao.listar();
     } catch (SQLException e) {

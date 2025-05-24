@@ -23,17 +23,17 @@ public class AdministradorDAO {
     }
 
     public Administrador obtenerPorId(int id) throws SQLException {
-        String sql = "SELECT * FROM administrador WHERE idAdministrador = ?";
+        String sql = "SELECT * FROM administrador WHERE id_administrador = ?";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
             return new Administrador(
                 id,
-                rs.getString("nombre"),
-                rs.getString("apellido"),
-                rs.getString("correo"),
-                rs.getString("nacimiento"),
+                rs.getString("nombreA"),
+                rs.getString("apellidoA"),
+                rs.getString("correoA"),
+                rs.getString("fecha_nacimiento"),
                 rs.getInt("edad")
             );
         }

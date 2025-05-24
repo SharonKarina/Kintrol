@@ -4,9 +4,11 @@
  */
 package View;
 
+import Controller.controllerMembresias;
 import Model.Administrador;
 import Model.Membresia;
 import Model.Ubicacion;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -15,6 +17,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class DetallesMembresia extends javax.swing.JDialog {
 
+    private controllerMembresias controller;
     private DefaultTableModel modeloTablaAdmin;
     private DefaultTableModel modeloTablaUbicacion;
     
@@ -24,14 +27,15 @@ public class DetallesMembresia extends javax.swing.JDialog {
     public DetallesMembresia(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(getParent());
         
         // Hacer los campos de texto no editables
         idMembresíaDMTextField.setEditable(false);
-        limiteDMTextField.setEditable(false);
+        limiteDMTextField.setEditable(true);
         fechaInicioDMTextField.setEditable(false);
-        duracionDMTextField1.setEditable(false);
+        duracionDMTextField1.setEditable(true);
         idAdministradorDMTextField1.setEditable(false);
-        idUbicacionDMTextField1.setEditable(false);
+        idUbicacionDMTextField1.setEditable(true);
 
         
         // Inicializar modelo de la tabla de Administradores
@@ -81,6 +85,26 @@ public class DetallesMembresia extends javax.swing.JDialog {
             modeloTablaUbicacion.addRow(new Object[]{"N/A", "No disponible", "No disponible"});
         }
     }
+    
+    private void actualizarMembresia() {
+        try {
+            Membresia m = new Membresia(
+                Integer.parseInt(idMembresíaDMTextField.getText()),
+                Integer.parseInt(limiteDMTextField.getText()),
+                fechaInicioDMTextField.getText(),
+                Integer.parseInt(duracionDMTextField1.getText()),
+                Integer.parseInt(idAdministradorDMTextField1.getText()),
+                Integer.parseInt(idUbicacionDMTextField1.getText())
+            );
+            if (controller.actualizarMembresia(m)) {
+                JOptionPane.showMessageDialog(this, "Membresía actualizada");
+            } else {
+                JOptionPane.showMessageDialog(this, "No se pudo actualizar");
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Verifica los campos numéricos");
+        }
+    }
 
 
     /**
@@ -93,7 +117,6 @@ public class DetallesMembresia extends javax.swing.JDialog {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jScrollBar1 = new javax.swing.JScrollBar();
         panelMembresiasDM = new javax.swing.JPanel();
         fechaInicioDM = new javax.swing.JLabel();
         DMid_Membresia = new javax.swing.JLabel();
@@ -120,6 +143,7 @@ public class DetallesMembresia extends javax.swing.JDialog {
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaUbicacion = new javax.swing.JTable();
         cerrarDMButton = new javax.swing.JButton();
+        actualizarMButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -200,11 +224,11 @@ public class DetallesMembresia extends javax.swing.JDialog {
                             .addComponent(idAdministradorDM))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(panelMembresiasDMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(idAdministradorDMTextField1)
+                            .addComponent(idAdministradorDMTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
                             .addComponent(duracionDMTextField1)
                             .addComponent(idMembresíaDMTextField, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(limiteDMTextField, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(fechaInicioDMTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)))
+                            .addComponent(fechaInicioDMTextField, javax.swing.GroupLayout.Alignment.TRAILING)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMembresiasDMLayout.createSequentialGroup()
                         .addComponent(idUbicacionDM)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -260,9 +284,9 @@ public class DetallesMembresia extends javax.swing.JDialog {
             .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(panelTituloDMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(panelTituloDMLayout.createSequentialGroup()
-                    .addGap(0, 91, Short.MAX_VALUE)
+                    .addGap(0, 168, Short.MAX_VALUE)
                     .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 258, Short.MAX_VALUE)))
+                    .addGap(0, 335, Short.MAX_VALUE)))
         );
         panelTituloDMLayout.setVerticalGroup(
             panelTituloDMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -306,15 +330,15 @@ public class DetallesMembresia extends javax.swing.JDialog {
             panelAdministradorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelAdministradorLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 481, Short.MAX_VALUE)
+                .addContainerGap())
         );
         panelAdministradorLayout.setVerticalGroup(
             panelAdministradorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelAdministradorLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 54, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         panelUbicacion.setBackground(new java.awt.Color(222, 235, 181));
@@ -351,7 +375,7 @@ public class DetallesMembresia extends javax.swing.JDialog {
             panelUbicacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelUbicacionLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -365,50 +389,53 @@ public class DetallesMembresia extends javax.swing.JDialog {
             }
         });
 
+        actualizarMButton.setText("jButton1");
+        actualizarMButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                actualizarMButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(panelTituloDM, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(panelMembresiasDM, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jSeparator3)
-                            .addComponent(panelAdministrador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jSeparator4)
-                            .addComponent(panelUbicacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addComponent(jSeparator3)
+                    .addComponent(panelMembresiasDM, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelTituloDM, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelAdministrador, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelUbicacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cerrarDMButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(15, 15, 15)))
-                .addComponent(jScrollBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(actualizarMButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cerrarDMButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jSeparator4))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(panelTituloDM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(panelMembresiasDM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cerrarDMButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(panelAdministrador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(panelUbicacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                .addComponent(panelTituloDM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelMembresiasDM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cerrarDMButton)
+                    .addComponent(actualizarMButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelAdministrador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelUbicacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -445,6 +472,11 @@ public class DetallesMembresia extends javax.swing.JDialog {
         // TODO add your handling code here:
         cerrarDMButton.addActionListener(e -> this.dispose());
     }//GEN-LAST:event_cerrarDMButtonActionPerformed
+
+    private void actualizarMButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarMButtonActionPerformed
+        // TODO add your handling code here:
+        actualizarMButton.addActionListener(e -> actualizarMembresia());
+    }//GEN-LAST:event_actualizarMButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -490,6 +522,7 @@ public class DetallesMembresia extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel DMid_Membresia;
+    private javax.swing.JButton actualizarMButton;
     private javax.swing.JButton cerrarDMButton;
     private javax.swing.JLabel detallesMembresías;
     private javax.swing.JTextField duracionDMTextField1;
@@ -502,7 +535,6 @@ public class DetallesMembresia extends javax.swing.JDialog {
     private javax.swing.JLabel idUbicacionDM;
     private javax.swing.JTextField idUbicacionDMTextField1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;

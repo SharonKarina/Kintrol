@@ -23,7 +23,7 @@ public class UbicacionDAO {
     }
 
     public Ubicacion obtenerPorId(int id) throws SQLException {
-        String sql = "SELECT * FROM ubicacion WHERE idUbicacion = ?";
+        String sql = "SELECT * FROM ubicacion WHERE id_ubicacion = ?";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();

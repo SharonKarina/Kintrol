@@ -18,7 +18,7 @@ public class Conexion {
     private String DRIVER = "com.mysql.cj.jdbc.Driver";
     private String URL = "jdbc:mysql://localhost:3306/db_kintrol";
     private String USER = "root";
-    private String PASSWORD = "AlexitoKarina";
+    private String PASSWORD = "";
     
     private Connection cnn = null; //Conexión con la base de datos
     
