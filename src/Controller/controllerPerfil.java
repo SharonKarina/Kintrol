@@ -4,8 +4,8 @@
  */
 package Controller;
 
-import Model.MembresiaDAO;
-import Model.Membresia;
+import Model.Perfil;
+import Model.PerfilDAO;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,14 +14,14 @@ import java.util.List;
  *
  * @author karin
  */
-public class controllerMembresias {
-    public MembresiaDAO dao;
+public class controllerPerfil {
+    public PerfilDAO dao;
 
-    public controllerMembresias(MembresiaDAO dao) {
+    public controllerPerfil(PerfilDAO dao) {
         this.dao = dao;
     }
-
-    public ArrayList<Membresia> listarMembresias() {
+    
+    public ArrayList<Perfil> listarPerfil() {
         try {
             return dao.listar();
         } catch (SQLException e) {
@@ -30,25 +30,25 @@ public class controllerMembresias {
         }
     }
     
-    public boolean crearMembresia(Membresia m) {
+    public boolean crearPerfil(Perfil p) {
         try {
-            return dao.insertar(m);
+            return dao.insertar(p);
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
     }
 
-    public boolean actualizarMembresia(Membresia m) {
+    public boolean actualizarPerfil(Perfil p) {
         try {
-            return dao.actualizar(m);
+            return dao.actualizar(p);
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
     }
 
-    public boolean eliminarMembresia(int id) {
+    public boolean eliminarPerfil(int id) {
         try {
             return dao.eliminar(id);
         } catch (SQLException e) {
@@ -57,7 +57,7 @@ public class controllerMembresias {
         }
     }
 
-    public Membresia obtenerMembresia(int id) {
+    public Perfil obtenerPerfil(int id) {
         try {
             return dao.obtenerPorId(id);
         } catch (SQLException e) {
@@ -66,3 +66,5 @@ public class controllerMembresias {
         }
     }
 }
+
+    

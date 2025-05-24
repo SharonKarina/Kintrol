@@ -36,7 +36,6 @@ public class DetallesMembresia extends javax.swing.JDialog {
         duracionDMTextField1.setEditable(true);
         idAdministradorDMTextField1.setEditable(false);
         idUbicacionDMTextField1.setEditable(true);
-
         
         // Inicializar modelo de la tabla de Administradores
         modeloTablaAdmin = new DefaultTableModel(
@@ -389,7 +388,10 @@ public class DetallesMembresia extends javax.swing.JDialog {
             }
         });
 
-        actualizarMButton.setText("jButton1");
+        actualizarMButton.setBackground(new java.awt.Color(222, 235, 181));
+        actualizarMButton.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        actualizarMButton.setText("Actualizar");
+        actualizarMButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         actualizarMButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 actualizarMButtonActionPerformed(evt);
@@ -410,7 +412,7 @@ public class DetallesMembresia extends javax.swing.JDialog {
                     .addComponent(panelUbicacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(actualizarMButton)
+                        .addComponent(actualizarMButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(cerrarDMButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jSeparator4))

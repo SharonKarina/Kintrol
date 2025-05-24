@@ -4,17 +4,91 @@
  */
 package View;
 
+import Conexiones.Conexion;
+import Controller.controllerPerfil;
+import Model.GustaDe;
+import Model.GustaDeDAO;
+import Model.Historial;
+import Model.HistorialDAO;
+import Model.Perfil;
+import Model.PerfilDAO;
+import Model.Recomendacion;
+import Model.RecomendacionDAO;
+
+import java.sql.Connection;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author karin
  */
 public class GestionPerfiles extends javax.swing.JFrame {
-
+    private controllerPerfil controller;
+    private DefaultTableModel modeloTabla;
+    
+    
     /**
      * Creates new form GestinPerfiles
      */
     public GestionPerfiles() {
         initComponents();
+        modeloTabla = (DefaultTableModel) perfiles.getModel();
+        
+        // Configurar controlador
+        try {
+            Connection conn = Conexion.getCnx().getCnn();
+            controller = new controllerPerfil(new PerfilDAO(conn));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al conectar: " + e.getMessage());
+        }
+    }
+    
+    private void agregarPerfil() {
+        try {
+            Perfil p = new Perfil(
+                Integer.parseInt(idPerfilTextField.getText()),
+                nickNameTextField.getText(),
+                Integer.parseInt(idMembresiaTextField.getText())
+            );
+            if (controller.crearPerfil(p)) {
+                JOptionPane.showMessageDialog(this, "Membresía agregada correctamente");
+                listarPerfil();
+            } else {
+                JOptionPane.showMessageDialog(this, "No se pudo agregar");
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Verifica los campos numéricos");
+        }
+    }
+    
+    private void eliminarPerfil() {
+        try {
+            int id = Integer.parseInt(idPerfilTextField.getText());
+            if (controller.eliminarPerfil(id)) {
+                JOptionPane.showMessageDialog(this, "Eliminado correctamente");
+                listarPerfil();
+            } else {
+                JOptionPane.showMessageDialog(this, "No se encontró el perfil");
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "ID inválido");
+        }
+    }
+
+    private void listarPerfil() {
+        modeloTabla.setRowCount(0);
+        for (Perfil p : controller.listarPerfil()) {
+            modeloTabla.addRow(new Object[]{
+                p.getId_perfil(),
+                p.getNickName(),
+                p.getId_membresia()
+            });
+        }
     }
 
     /**
@@ -35,7 +109,6 @@ public class GestionPerfiles extends javax.swing.JFrame {
         perfiles = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
         listarPerfiles = new javax.swing.JButton();
-        actualizarPerfiles = new javax.swing.JButton();
         eliminarPerfil = new javax.swing.JButton();
         agregarPerfiles = new javax.swing.JButton();
         verDetallesPerfil = new javax.swing.JButton();
@@ -110,7 +183,7 @@ public class GestionPerfiles extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 491, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -127,21 +200,31 @@ public class GestionPerfiles extends javax.swing.JFrame {
         listarPerfiles.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         listarPerfiles.setText("Listar");
         listarPerfiles.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        actualizarPerfiles.setBackground(new java.awt.Color(222, 235, 181));
-        actualizarPerfiles.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        actualizarPerfiles.setText("Actualizar");
-        actualizarPerfiles.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        listarPerfiles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                listarPerfilesActionPerformed(evt);
+            }
+        });
 
         eliminarPerfil.setBackground(new java.awt.Color(222, 235, 181));
         eliminarPerfil.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         eliminarPerfil.setText("Eliminar");
         eliminarPerfil.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        eliminarPerfil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eliminarPerfilActionPerformed(evt);
+            }
+        });
 
         agregarPerfiles.setBackground(new java.awt.Color(222, 235, 181));
         agregarPerfiles.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         agregarPerfiles.setText("Agregar");
         agregarPerfiles.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        agregarPerfiles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                agregarPerfilesActionPerformed(evt);
+            }
+        });
 
         verDetallesPerfil.setBackground(new java.awt.Color(222, 235, 181));
         verDetallesPerfil.setText("Ver Detalles");
@@ -157,15 +240,13 @@ public class GestionPerfiles extends javax.swing.JFrame {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(45, 45, 45)
                 .addComponent(listarPerfiles, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(agregarPerfiles, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(actualizarPerfiles, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(eliminarPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(verDetallesPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -176,7 +257,6 @@ public class GestionPerfiles extends javax.swing.JFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(listarPerfiles)
                     .addComponent(agregarPerfiles)
-                    .addComponent(actualizarPerfiles)
                     .addComponent(eliminarPerfil)
                     .addComponent(verDetallesPerfil))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -304,6 +384,39 @@ public class GestionPerfiles extends javax.swing.JFrame {
 
     private void verDetallesPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verDetallesPerfilActionPerformed
         // TODO add your handling code here:
+        int filaSeleccionada = perfiles.getSelectedRow();
+    if (filaSeleccionada != -1) {
+        try {
+            int idPerfil = Integer.parseInt(perfiles.getValueAt(filaSeleccionada, 0).toString());
+
+            PerfilDAO perfilDAO = new PerfilDAO();
+            Perfil perfil = perfilDAO.obtenerPorId(idPerfil);
+
+            if (perfil != null) {
+                GustaDeDAO gustaDeDAO = new GustaDeDAO();
+                List<GustaDe> gustos = gustaDeDAO.obtenerGustosPorPerfil(idPerfil);
+
+                HistorialDAO historialDAO = new HistorialDAO();
+                List<Historial> historial = historialDAO.obtenerHistorialPorPerfil(idPerfil);
+
+                RecomendacionDAO recomendacionDAO = new RecomendacionDAO();
+                List<Recomendacion> recomendaciones = recomendacionDAO.obtenerRecomendacionesPorPerfil(idPerfil);
+
+                DetallesPerfil dialogo = new DetallesPerfil(this, true);
+                dialogo.setDatosPerfil(perfil);
+                dialogo.setDatosGustos(gustos);
+                dialogo.setDatosHistorial(historial);
+                dialogo.setDatosRecomendacion(recomendaciones);
+                dialogo.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "No se encontró el perfil.");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionPerfiles.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    } else {
+        JOptionPane.showMessageDialog(this, "Selecciona una fila para ver los detalles.");
+    }
     }//GEN-LAST:event_verDetallesPerfilActionPerformed
 
     private void idPerfilTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idPerfilTextFieldActionPerformed
@@ -313,6 +426,21 @@ public class GestionPerfiles extends javax.swing.JFrame {
     private void nickNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nickNameTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_nickNameTextFieldActionPerformed
+
+    private void listarPerfilesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarPerfilesActionPerformed
+        // TODO add your handling code here:
+        listarPerfiles.addActionListener(e -> listarPerfil());
+    }//GEN-LAST:event_listarPerfilesActionPerformed
+
+    private void agregarPerfilesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarPerfilesActionPerformed
+        // TODO add your handling code here:
+        agregarPerfiles.addActionListener(e -> agregarPerfil());
+    }//GEN-LAST:event_agregarPerfilesActionPerformed
+
+    private void eliminarPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarPerfilActionPerformed
+        // TODO add your handling code here:
+        eliminarPerfil.addActionListener(e -> eliminarPerfil());
+    }//GEN-LAST:event_eliminarPerfilActionPerformed
 
     /**
      * @param args the command line arguments
@@ -351,7 +479,6 @@ public class GestionPerfiles extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton actualizarPerfiles;
     private javax.swing.JButton agregarPerfiles;
     private javax.swing.JButton eliminarPerfil;
     private javax.swing.JLabel gestionPerfiles;

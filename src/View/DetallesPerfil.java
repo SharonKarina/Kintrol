@@ -4,11 +4,25 @@
  */
 package View;
 
+import Controller.controllerPerfil;
+import Model.GustaDe;
+import Model.Historial;
+import Model.Perfil;
+import Model.Recomendacion;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author karin
  */
 public class DetallesPerfil extends javax.swing.JDialog {
+    
+    private controllerPerfil controller;
+    private DefaultTableModel modeloTablaHistorial;
+    private DefaultTableModel modeloTablaGustos;
+    private DefaultTableModel modeloTablaRecomendaciones;
 
     /**
      * Creates new form DetallesPerfil
@@ -16,8 +30,98 @@ public class DetallesPerfil extends javax.swing.JDialog {
     public DetallesPerfil(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(getParent());
+        
+        // Hacer los campos de texto no editables
+        idPerfilTextFieldDP.setEditable(false);
+        nickNameTextFieldDP.setEditable(true);
+        idMembresiaTextFieldDP.setEditable(false);
+        
+        // Inicializar modelo de la tabla de historial
+        modeloTablaHistorial = new DefaultTableModel(
+            new Object[]{"ID historial", "Fecha", "Contenido"}, 0);
+        tablaHistorial.setModel(modeloTablaHistorial);
+
+        // Inicializar modelo de la tabla de gustos
+        modeloTablaGustos = new DefaultTableModel(
+            new Object[]{"Estilo", "Frecuencia", "Nivel Gusto"}, 0);
+        tablaGustos.setModel(modeloTablaGustos);
+        
+        // Inicializar modelo de la tabla de recomendaciones
+        modeloTablaRecomendaciones = new DefaultTableModel(
+            new Object[]{"ID recomendación", "Fecha", "Nombre Estilo", "ID Estilo"}, 0);
+        tablaRecomendaciones.setModel(modeloTablaRecomendaciones);
     }
 
+    public void setDatosPerfil(Perfil p) {
+        idPerfilTextFieldDP.setText(String.valueOf(p.getId_perfil()));
+        nickNameTextFieldDP.setText(String.valueOf(p.getNickName()));
+        idMembresiaTextFieldDP.setText(String.valueOf(p.getId_membresia()));
+    }
+
+    public void setDatosHistorial(List<Historial> hist) {
+        modeloTablaHistorial.setRowCount(0);
+        if (hist != null && !hist.isEmpty()){
+            for (Historial h : hist){
+                modeloTablaHistorial.addRow(new Object[]{
+                    h.getIdHistorial(),
+                    h.getFecha(),
+                    h.getDescripcion()
+                });
+            }
+        } else {
+            modeloTablaHistorial.addRow(new Object[]{"No disponible", "No disponible", "No disponible"});
+        }
+    }
+
+    public void setDatosGustos(List<GustaDe> gustos) {
+        modeloTablaGustos.setRowCount(0);
+        if (gustos != null && !gustos.isEmpty()) {
+            for(GustaDe g : gustos){
+                modeloTablaGustos.addRow(new Object[]{
+                    g.getNombreEstilo(),
+                    g.getFrecuencia(),
+                    g.getNivelGusto()
+                });
+            }
+        } else {
+            modeloTablaGustos.addRow(new Object[]{"No disponible", "No disponible", "No disponible"});
+        }
+    }
+    
+    public void setDatosRecomendacion(List<Recomendacion> recom) {
+        modeloTablaRecomendaciones.setRowCount(0);
+        if (recom != null && !recom.isEmpty()) {
+            for (Recomendacion r : recom){
+                modeloTablaRecomendaciones.addRow(new Object[]{
+                    r.getId_recomendacion(),
+                    r.getFecha(),
+                    r.getNombreEstilo(),
+                    r.getId_estilo()
+                });
+            }
+        } else {
+            modeloTablaRecomendaciones.addRow(new Object[]{"No disponible", "No disponible", "No disponible", "No disponible"});
+        }
+    }
+    
+    private void actualizarPerfil() {
+        try {
+            Perfil p = new Perfil(
+                Integer.parseInt(idPerfilTextFieldDP.getText()),
+                nickNameTextFieldDP.getText(),
+                Integer.parseInt(idMembresiaTextFieldDP.getText())
+            );
+            if (controller.actualizarPerfil(p)) {
+                JOptionPane.showMessageDialog(this, "Perfil actualizado");
+            } else {
+                JOptionPane.showMessageDialog(this, "No se pudo actualizar");
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Verifica los campos numéricos");
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -53,6 +157,8 @@ public class DetallesPerfil extends javax.swing.JDialog {
         panelRecomendaciones = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         tablaRecomendaciones = new javax.swing.JTable();
+        salirDPButton = new javax.swing.JButton();
+        actualizarDPButton = new javax.swing.JButton();
 
         jScrollPane3.setViewportView(jEditorPane1);
 
@@ -214,7 +320,7 @@ public class DetallesPerfil extends javax.swing.JDialog {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class, java.lang.Byte.class
+                java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -281,6 +387,26 @@ public class DetallesPerfil extends javax.swing.JDialog {
                 .addGap(329, 329, 329))
         );
 
+        salirDPButton.setBackground(new java.awt.Color(222, 235, 181));
+        salirDPButton.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        salirDPButton.setText("Salir");
+        salirDPButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        salirDPButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                salirDPButtonActionPerformed(evt);
+            }
+        });
+
+        actualizarDPButton.setBackground(new java.awt.Color(222, 235, 181));
+        actualizarDPButton.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        actualizarDPButton.setText("Actualizar");
+        actualizarDPButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        actualizarDPButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                actualizarDPButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -295,7 +421,12 @@ public class DetallesPerfil extends javax.swing.JDialog {
                     .addComponent(jSeparator3)
                     .addComponent(panelGustos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jSeparator4)
-                    .addComponent(panelRecomendaciones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(panelRecomendaciones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(actualizarDPButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(salirDPButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -310,6 +441,10 @@ public class DetallesPerfil extends javax.swing.JDialog {
                         .addComponent(panelTituloDP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(panelPerfilDP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(salirDPButton)
+                            .addComponent(actualizarDPButton))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -333,7 +468,7 @@ public class DetallesPerfil extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -346,6 +481,16 @@ public class DetallesPerfil extends javax.swing.JDialog {
     private void nickNameTextFieldDPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nickNameTextFieldDPActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_nickNameTextFieldDPActionPerformed
+
+    private void salirDPButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirDPButtonActionPerformed
+        // TODO add your handling code here:
+        salirDPButton.addActionListener(e -> this.dispose());
+    }//GEN-LAST:event_salirDPButtonActionPerformed
+
+    private void actualizarDPButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarDPButtonActionPerformed
+        // TODO add your handling code here:
+        actualizarDPButton.addActionListener(e -> actualizarPerfil());
+    }//GEN-LAST:event_actualizarDPButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -390,6 +535,7 @@ public class DetallesPerfil extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton actualizarDPButton;
     private javax.swing.JLabel detallesPerfil;
     private javax.swing.JTextField idMembresiaTextFieldDP;
     private javax.swing.JTextField idPerfilTextFieldDP;
@@ -413,6 +559,7 @@ public class DetallesPerfil extends javax.swing.JDialog {
     private javax.swing.JPanel panelPerfilDP;
     private javax.swing.JPanel panelRecomendaciones;
     private javax.swing.JPanel panelTituloDP;
+    private javax.swing.JButton salirDPButton;
     private javax.swing.JTable tablaGustos;
     private javax.swing.JTable tablaHistorial;
     private javax.swing.JTable tablaRecomendaciones;

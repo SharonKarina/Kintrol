@@ -57,14 +57,12 @@ public class MembresiaDAO {
     }
     
     public boolean actualizar(Membresia m) throws SQLException {
-        String sql = "UPDATE membresias SET limite=?, fecha_inicio=?, duracion=?, id_administrador=?, id_ubicacion=? WHERE id_membresia=?";
+        String sql = "UPDATE membresias SET limite=?, duracion=?, id_ubicacion=? WHERE id_membresia=?";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setInt(1, m.getLimite());
-        ps.setString(2, m.getFechaInicio());
-        ps.setInt(3, m.getDuracion());
-        ps.setInt(4, m.getIdAdministrador());
-        ps.setInt(5, m.getIdUbicacion());
-        ps.setInt(6, m.getIdMembresia());
+        ps.setInt(2, m.getDuracion());
+        ps.setInt(3, m.getIdUbicacion());
+        ps.setInt(4, m.getIdMembresia());
         return ps.executeUpdate() > 0;
     }
     
