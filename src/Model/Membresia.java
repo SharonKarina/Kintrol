@@ -27,6 +27,8 @@ public class Membresia {
         this.idAdministrador = idAdministrador;
         this.idUbicacion = idUbicacion;
     }
+    
+    
 
     public Membresia(int idMembresia) {
         this.idMembresia = idMembresia;

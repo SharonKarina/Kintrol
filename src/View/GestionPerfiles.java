@@ -402,7 +402,12 @@ public class GestionPerfiles extends javax.swing.JFrame {
                 RecomendacionDAO recomendacionDAO = new RecomendacionDAO();
                 List<Recomendacion> recomendaciones = recomendacionDAO.obtenerRecomendacionesPorPerfil(idPerfil);
 
-                DetallesPerfil dialogo = new DetallesPerfil(this, true);
+                if (gustos == null || historial == null || recomendaciones == null) {
+                    JOptionPane.showMessageDialog(this, "No se pudieron cargar todos los detalles.");
+                    return;
+                }
+                
+                DetallesPerfil dialogo = new DetallesPerfil(this, true, this.controller);
                 dialogo.setDatosPerfil(perfil);
                 dialogo.setDatosGustos(gustos);
                 dialogo.setDatosHistorial(historial);

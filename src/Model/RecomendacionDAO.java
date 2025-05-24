@@ -26,7 +26,7 @@ public class RecomendacionDAO {
     
     public List<Recomendacion> obtenerRecomendacionesPorPerfil(int idPerfil) {
         List<Recomendacion> lista = new ArrayList<>();
-        String sql = "SELECT r.id_recomendacion, r.fecha, em.nombre_estilo, em.id_estilo " +
+        String sql = "SELECT r.id_recomendacion, r.fecha_recomendacion, em.nombreE, em.id_estilo " +
                  "FROM estilo_recomendado er " +
                  "JOIN recomendaciones r ON er.id_recomendacion = r.id_recomendacion " +
                  "JOIN estilos_musicales em ON er.id_estilo = em.id_estilo " +

@@ -21,6 +21,10 @@ public class controllerPerfil {
         this.dao = dao;
     }
     
+    public controllerPerfil(){
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
     public ArrayList<Perfil> listarPerfil() {
         try {
             return dao.listar();

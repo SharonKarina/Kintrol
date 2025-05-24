@@ -26,7 +26,7 @@ public class GustaDeDAO {
     
     public List<GustaDe> obtenerGustosPorPerfil(int idPerfil) {
         List<GustaDe> lista = new ArrayList<>();
-        String sql = "SELECT em.nombre_estilo, gd.frecuencia_escucha, gd.nivel_gusto " +
+        String sql = "SELECT em.nombreE, gd.frecuencia_escucha, gd.nivel_gusto " +
                  "FROM gusta_de gd " +
                  "JOIN estilos_musicales em ON gd.id_estilo = em.id_estilo " +
                  "WHERE gd.id_perfil = ?";
@@ -38,7 +38,7 @@ public class GustaDeDAO {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                String estilo = rs.getString("nombre_estilo");
+                String estilo = rs.getString("nombreE");
                 int frecuencia = rs.getInt("frecuencia_escucha");
                 int nivel = rs.getInt("nivel_gusto");
 

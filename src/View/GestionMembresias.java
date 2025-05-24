@@ -49,6 +49,15 @@ public class GestionMembresias extends javax.swing.JFrame {
     
     private void agregarMembresia() {
         try {
+            // Verificar existencia del administrador
+            int idAdmin = Integer.parseInt(idAdministradorMTextField1.getText().trim());
+            AdministradorDAO adminDAO = new AdministradorDAO();
+            if (!adminDAO.existeAdministrador(idAdmin)) {
+                JOptionPane.showMessageDialog(this, "El ID del administrador no existe. Redirigiendo al formulario de creación.");
+                crearAdministrador crearAdminDialog = new crearAdministrador(this, true); // tu JDialog
+                crearAdminDialog.setVisible(true);
+                return;
+            }
             Membresia m = new Membresia(
                 Integer.parseInt(idMembresíaMTextField.getText()),
                 Integer.parseInt(limiteMTextField.getText()),
@@ -475,6 +484,7 @@ public class GestionMembresias extends javax.swing.JFrame {
 
     private void agregarMButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarMButtonActionPerformed
         // TODO add your handling code here:
+        crearAdministrador crearAdmin = new crearAdministrador(null, true);
         agregarMButton.addActionListener(e -> agregarMembresia());
     }//GEN-LAST:event_agregarMButtonActionPerformed
 
@@ -500,7 +510,7 @@ public class GestionMembresias extends javax.swing.JFrame {
                         return;
                     }
                     
-                    DetallesMembresia dialogo = new DetallesMembresia(this, true);
+                    DetallesMembresia dialogo = new DetallesMembresia(this, true, this.controller);
                     dialogo.setDatosMembresia(membresia);
                     dialogo.setDatosAdministrador(admin);
                     dialogo.setDatosUbicacion(ubicacion);

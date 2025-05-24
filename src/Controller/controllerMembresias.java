@@ -21,6 +21,10 @@ public class controllerMembresias {
         this.dao = dao;
     }
 
+    public controllerMembresias() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
     public ArrayList<Membresia> listarMembresias() {
         try {
             return dao.listar();

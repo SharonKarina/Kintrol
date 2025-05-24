@@ -56,7 +56,7 @@ public class PerfilDAO {
     
     public boolean actualizar(Perfil p) throws SQLException {
         String sql = "UPDATE perfil SET nickName=? WHERE id_perfil=?";
-        PreparedStatement ps = conn.prepareStatement(sql);
+        PreparedStatement ps = this.conn.prepareStatement(sql);
         ps.setString(1, p.getNickName());
         ps.setInt(1, p.getId_perfil());
         return ps.executeUpdate() > 0;

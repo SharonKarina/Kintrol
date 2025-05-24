@@ -24,10 +24,11 @@ public class DetallesMembresia extends javax.swing.JDialog {
     /**
      * Creates new form DetallesMembresia
      */
-    public DetallesMembresia(java.awt.Frame parent, boolean modal) {
+    public DetallesMembresia(java.awt.Frame parent, boolean modal, controllerMembresias controller) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(getParent());
+        this.controller = controller;
         
         // Hacer los campos de texto no editables
         idMembresíaDMTextField.setEditable(false);
@@ -510,7 +511,8 @@ public class DetallesMembresia extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                DetallesMembresia dialog = new DetallesMembresia(new javax.swing.JFrame(), true);
+                controllerMembresias controladorMembresias = new controllerMembresias();
+                DetallesMembresia dialog = new DetallesMembresia(new javax.swing.JFrame(), true, controladorMembresias);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

@@ -46,17 +46,24 @@ public class Conexion {
     }
 
     public Connection getCnn() {
-        return cnn;
-    }
-
-    public void cerrarCnn() {
         try {
-            if (cnn != null) {
-                cnn.close();
-                System.out.println("Se cierra la conexion");
+            if (cnn == null || cnn.isClosed()) {
+                cnn = DriverManager.getConnection(URL, USER, PASSWORD);
             }
         } catch (SQLException ex) {
             Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return cnn;
     }
+
+    //public void cerrarCnn() {
+      //  try {
+        //    if (cnn != null) {
+          //      cnn.close();
+            //    System.out.println("Se cierra la conexion");
+            //}
+        //} catch (SQLException ex) {
+          //  Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+        //}
+    //}
 }
