@@ -112,6 +112,7 @@ public class GestionPerfiles extends javax.swing.JFrame {
         eliminarPerfil = new javax.swing.JButton();
         agregarPerfiles = new javax.swing.JButton();
         verDetallesPerfil = new javax.swing.JButton();
+        volverGPButton = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         id_Perfil = new javax.swing.JLabel();
         idPerfilTextField = new javax.swing.JTextField();
@@ -227,6 +228,7 @@ public class GestionPerfiles extends javax.swing.JFrame {
         });
 
         verDetallesPerfil.setBackground(new java.awt.Color(222, 235, 181));
+        verDetallesPerfil.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         verDetallesPerfil.setText("Ver Detalles");
         verDetallesPerfil.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         verDetallesPerfil.addActionListener(new java.awt.event.ActionListener() {
@@ -235,20 +237,27 @@ public class GestionPerfiles extends javax.swing.JFrame {
             }
         });
 
+        volverGPButton.setBackground(new java.awt.Color(222, 235, 181));
+        volverGPButton.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        volverGPButton.setText("Volver");
+        volverGPButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(45, 45, 45)
+                .addContainerGap()
                 .addComponent(listarPerfiles, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(agregarPerfiles, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(eliminarPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(verDetallesPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(volverGPButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -258,7 +267,8 @@ public class GestionPerfiles extends javax.swing.JFrame {
                     .addComponent(listarPerfiles)
                     .addComponent(agregarPerfiles)
                     .addComponent(eliminarPerfil)
-                    .addComponent(verDetallesPerfil))
+                    .addComponent(verDetallesPerfil)
+                    .addComponent(volverGPButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -371,7 +381,7 @@ public class GestionPerfiles extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 340, Short.MAX_VALUE)
+            .addGap(0, 341, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -504,5 +514,6 @@ public class GestionPerfiles extends javax.swing.JFrame {
     private javax.swing.JLabel nickname;
     private javax.swing.JTable perfiles;
     private javax.swing.JButton verDetallesPerfil;
+    private javax.swing.JButton volverGPButton;
     // End of variables declaration//GEN-END:variables
 }

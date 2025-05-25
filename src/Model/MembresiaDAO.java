@@ -25,7 +25,10 @@ public class MembresiaDAO {
     public ArrayList<Membresia> listar() throws SQLException {
         ArrayList<Membresia> lista = new ArrayList<>();
         String sql = "SELECT * FROM membresias";
+        
+        Connection conn = Conexion.getCnx().getCnn();
         Statement stmt = conn.createStatement();
+        
         ResultSet rs = stmt.executeQuery(sql);
         while (rs.next()) {
             lista.add(mapearMembresia(rs));
@@ -35,7 +38,10 @@ public class MembresiaDAO {
     
     public Membresia obtenerPorId(int id) throws SQLException {
         String sql = "SELECT * FROM membresias WHERE id_membresia = ?";
+        
+        Connection conn = Conexion.getCnx().getCnn();
         PreparedStatement ps = conn.prepareStatement(sql);
+        
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
@@ -44,21 +50,35 @@ public class MembresiaDAO {
         return null;
     }
     
-    public boolean insertar(Membresia m) throws SQLException {
-        String sql = "INSERT INTO membresias (id_membresia, limite, fecha_inicio, duracion, id_administrador, id_ubicacion) VALUES (?, ?, ?, ?, ?, ?)";
-        PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setInt(1, m.getIdMembresia());
-        ps.setInt(2, m.getLimite());
-        ps.setString(3, m.getFechaInicio());
-        ps.setInt(4, m.getDuracion());
-        ps.setInt(5, m.getIdAdministrador());
-        ps.setInt(6, m.getIdUbicacion());
-        return ps.executeUpdate() > 0;
+    public int insertar(Membresia m) throws SQLException {
+        String sql = "INSERT INTO membresias (limite, fecha_inicio, duracion, id_administrador, id_ubicacion) VALUES (?, ?, ?, ?, ?)";
+        
+        Connection conn = Conexion.getCnx().getCnn();
+        PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        
+        ps.setInt(1, m.getLimite());
+        ps.setString(2, m.getFechaInicio());
+        ps.setInt(3, m.getDuracion());
+        ps.setInt(4, m.getIdAdministrador());
+        ps.setInt(5, m.getIdUbicacion());
+        
+        int rows = ps.executeUpdate();
+        if (rows > 0) {
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                return rs.getInt(1); // retorna el id_membresia generado
+            }
+        }
+        return -1; 
+        
     }
     
     public boolean actualizar(Membresia m) throws SQLException {
         String sql = "UPDATE membresias SET limite=?, duracion=?, id_ubicacion=? WHERE id_membresia=?";
+        
+        Connection conn = Conexion.getCnx().getCnn();
         PreparedStatement ps = conn.prepareStatement(sql);
+        
         ps.setInt(1, m.getLimite());
         ps.setInt(2, m.getDuracion());
         ps.setInt(3, m.getIdUbicacion());
@@ -68,7 +88,10 @@ public class MembresiaDAO {
     
     public boolean eliminar(int idMembresia) throws SQLException {
         String sql = "DELETE FROM membresias WHERE id_membresia=?";
+        
+        Connection conn = Conexion.getCnx().getCnn();
         PreparedStatement ps = conn.prepareStatement(sql);
+        
         ps.setInt(1, idMembresia);
         return ps.executeUpdate() > 0;
     }

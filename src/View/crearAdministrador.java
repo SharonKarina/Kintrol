@@ -13,13 +13,19 @@ import javax.swing.JOptionPane;
  * @author karin
  */
 public class crearAdministrador extends javax.swing.JDialog {
-
+    private int idAdministradorCreado = -1;
     /**
      * Creates new form crearAdministrador
      */
+    
+    public int getIdAdministradorCreado() {
+        return idAdministradorCreado;
+    }
+    
     public crearAdministrador(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
     }
 
     /**
@@ -271,26 +277,28 @@ public class crearAdministrador extends javax.swing.JDialog {
             String fechaNacimiento = fechaNacimientoAdministradorCATextField.getText().trim();
             int edad = Integer.parseInt(edadAdministradorCATextField.getText().trim());
 
-        // Validación básica
             if (nombre.isEmpty() || apellido.isEmpty() || correo.isEmpty() || fechaNacimiento.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Por favor, llena todos los campos", "Campos incompletos", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
-        // Crear objeto Administrador
             Administrador nuevoAdmin = new Administrador();
             nuevoAdmin.setNombre(nombre);
             nuevoAdmin.setApellido(apellido);
             nuevoAdmin.setCorreo(correo);
-            nuevoAdmin.setFechaNacimiento(fechaNacimiento); // o usar Date si el modelo lo requiere
+            nuevoAdmin.setFechaNacimiento(fechaNacimiento);
             nuevoAdmin.setEdad(edad);
 
-        // Guardar usando DAO
             AdministradorDAO dao = new AdministradorDAO();
-            dao.insertarAdministrador(nuevoAdmin);
+            int idGenerado = dao.insertarAdministrador(nuevoAdmin);
 
-            JOptionPane.showMessageDialog(this, "Administrador creado exitosamente");
-            this.dispose(); // Cierra la ventana
+            if (idGenerado != -1) {
+                this.idAdministradorCreado = idGenerado;
+                JOptionPane.showMessageDialog(this, "Administrador creado exitosamente");
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "No se pudo crear el administrador", "Error", JOptionPane.ERROR_MESSAGE);
+            }
 
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Edad inválida", "Error", JOptionPane.ERROR_MESSAGE);

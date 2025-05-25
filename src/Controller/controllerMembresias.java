@@ -34,12 +34,12 @@ public class controllerMembresias {
         }
     }
     
-    public boolean crearMembresia(Membresia m) {
+    public int crearMembresia(Membresia m) {
         try {
             return dao.insertar(m);
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+            return -1;
         }
     }
 

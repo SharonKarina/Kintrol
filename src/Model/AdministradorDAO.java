@@ -40,15 +40,23 @@ public class AdministradorDAO {
         return null;
     }
     
-    public void insertarAdministrador(Administrador admin) throws SQLException {
+    public int insertarAdministrador(Administrador admin) throws SQLException {
     String sql = "INSERT INTO administrador (nombreA, apellidoA, correoA, fecha_nacimiento, edad) VALUES (?, ?, ?, ?, ?)";
-    try (Connection conn = Conexion.getCnx().getCnn(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+    try (Connection conn = Conexion.getCnx().getCnn(); PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
         stmt.setString(1, admin.getNombre());
         stmt.setString(2, admin.getApellido());
         stmt.setString(3, admin.getCorreo());
-        stmt.setString(4, admin.getFechaNacimiento()); // o Date si el tipo lo requiere
+        stmt.setString(4, admin.getFechaNacimiento()); 
         stmt.setInt(5, admin.getEdad());
-        stmt.executeUpdate();
+        
+        int rows = stmt.executeUpdate();
+        if (rows > 0) {
+            ResultSet rs = stmt.getGeneratedKeys();
+            if (rs.next()) {
+                return rs.getInt(1); // ID generado
+            }
+        }
+        return -1;
     }
     }
     

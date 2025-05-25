@@ -56,14 +56,14 @@ public class Conexion {
         return cnn;
     }
 
-    //public void cerrarCnn() {
-      //  try {
-        //    if (cnn != null) {
-          //      cnn.close();
-            //    System.out.println("Se cierra la conexion");
-            //}
-        //} catch (SQLException ex) {
-          //  Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
-        //}
-    //}
+    public void cerrarCnn() {
+        try {
+            if (cnn != null) {
+                cnn.close();
+                System.out.println("Se cierra la conexion");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

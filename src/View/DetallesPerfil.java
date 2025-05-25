@@ -113,6 +113,8 @@ public class DetallesPerfil extends javax.swing.JDialog {
                 nickNameTextFieldDP.getText(),
                 Integer.parseInt(idMembresiaTextFieldDP.getText())
             );
+           
+            
             if (controller.actualizarPerfil(p)) {
                 JOptionPane.showMessageDialog(this, "Perfil actualizado");
             } else {

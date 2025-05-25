@@ -50,24 +50,41 @@ public class GestionMembresias extends javax.swing.JFrame {
     private void agregarMembresia() {
         try {
             // Verificar existencia del administrador
-            int idAdmin = Integer.parseInt(idAdministradorMTextField1.getText().trim());
-            AdministradorDAO adminDAO = new AdministradorDAO();
-            if (!adminDAO.existeAdministrador(idAdmin)) {
+            int idAdmin;
+            
+            try {
+                idAdmin = Integer.parseInt(idAdministradorMTextField1.getText().trim());
+                AdministradorDAO adminDAO = new AdministradorDAO();
+                if (!adminDAO.existeAdministrador(idAdmin)) {
+                    throw new NumberFormatException();
+                }
+            } catch (NumberFormatException ex){
                 JOptionPane.showMessageDialog(this, "El ID del administrador no existe. Redirigiendo al formulario de creación.");
                 crearAdministrador crearAdminDialog = new crearAdministrador(this, true); // tu JDialog
                 crearAdminDialog.setVisible(true);
-                return;
+                idAdmin = crearAdminDialog.getIdAdministradorCreado();
+                
+                if (idAdmin == -1) {
+                    JOptionPane.showMessageDialog(this, "No se creó el administrador.");
+                    return;
+                }
+                idAdministradorMTextField1.setText(String.valueOf(idAdmin)); // lo seteas en el formulario
             }
+            
             Membresia m = new Membresia(
-                Integer.parseInt(idMembresíaMTextField.getText()),
+                0,
                 Integer.parseInt(limiteMTextField.getText()),
                 fechaInicioMTextField.getText(),
                 Integer.parseInt(duracionMTextField1.getText()),
-                Integer.parseInt(idAdministradorMTextField1.getText()),
+                idAdmin,
                 Integer.parseInt(idUbicacionMTextField1.getText())
             );
-            if (controller.crearMembresia(m)) {
+            
+            int idGenerado = controller.crearMembresia(m);
+            
+            if (idGenerado != -1) {
                 JOptionPane.showMessageDialog(this, "Membresía agregada correctamente");
+                idMembresíaMTextField.setText(String.valueOf(idGenerado));
                 listarMembresias();
             } else {
                 JOptionPane.showMessageDialog(this, "No se pudo agregar");
@@ -139,6 +156,7 @@ public class GestionMembresias extends javax.swing.JFrame {
         agregarMButton = new javax.swing.JButton();
         eliminarMButton = new javax.swing.JButton();
         verDetallesMButton = new javax.swing.JButton();
+        volverGMButton = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JSeparator();
         panelTablaM = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -345,20 +363,25 @@ public class GestionMembresias extends javax.swing.JFrame {
             }
         });
 
+        volverGMButton.setBackground(new java.awt.Color(222, 235, 181));
+        volverGMButton.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        volverGMButton.setText("Volver");
+        volverGMButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
         javax.swing.GroupLayout papelBotonesMLayout = new javax.swing.GroupLayout(papelBotonesM);
         papelBotonesM.setLayout(papelBotonesMLayout);
         papelBotonesMLayout.setHorizontalGroup(
             papelBotonesMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(papelBotonesMLayout.createSequentialGroup()
-                .addGap(41, 41, 41)
                 .addComponent(listarMButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(12, 12, 12)
                 .addComponent(agregarMButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(eliminarMButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(verDetallesMButton, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
-                .addGap(44, 44, 44))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(volverGMButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         papelBotonesMLayout.setVerticalGroup(
             papelBotonesMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -368,7 +391,8 @@ public class GestionMembresias extends javax.swing.JFrame {
                     .addComponent(listarMButton)
                     .addComponent(agregarMButton)
                     .addComponent(eliminarMButton)
-                    .addComponent(verDetallesMButton))
+                    .addComponent(verDetallesMButton)
+                    .addComponent(volverGMButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -590,5 +614,6 @@ public class GestionMembresias extends javax.swing.JFrame {
     private javax.swing.JPanel papelBotonesM;
     private javax.swing.JTable tablaMembresias;
     private javax.swing.JButton verDetallesMButton;
+    private javax.swing.JButton volverGMButton;
     // End of variables declaration//GEN-END:variables
 }
