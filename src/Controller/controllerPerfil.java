@@ -34,12 +34,12 @@ public class controllerPerfil {
         }
     }
     
-    public boolean crearPerfil(Perfil p) {
+    public int crearPerfil(Perfil p) {
         try {
             return dao.insertar(p);
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+            return -1;
         }
     }
 

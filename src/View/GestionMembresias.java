@@ -20,6 +20,7 @@ import javax.swing.table.DefaultTableModel;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 
 
 /**
@@ -97,7 +98,7 @@ public class GestionMembresias extends javax.swing.JFrame {
     private void eliminarMembresia() {
         try {
             int id = Integer.parseInt(idMembresíaMTextField.getText());
-            if (controller.eliminarMembresia(id)) {
+            if (controller.eliminarConAdministrador(id)) {
                 JOptionPane.showMessageDialog(this, "Eliminada correctamente");
                 listarMembresias();
             } else {
@@ -367,6 +368,11 @@ public class GestionMembresias extends javax.swing.JFrame {
         volverGMButton.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         volverGMButton.setText("Volver");
         volverGMButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        volverGMButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                volverGMButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout papelBotonesMLayout = new javax.swing.GroupLayout(papelBotonesM);
         papelBotonesM.setLayout(papelBotonesMLayout);
@@ -550,6 +556,12 @@ public class GestionMembresias extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_verDetallesMButtonActionPerformed
+
+    private void volverGMButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_volverGMButtonActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        new PrincipalKintrol().setVisible(true);
+    }//GEN-LAST:event_volverGMButtonActionPerformed
 
     /**
      * @param args the command line arguments

@@ -51,15 +51,23 @@ public class PerfilDAO {
         return null;
     }
     
-    public boolean insertar(Perfil p) throws SQLException {
-        String sql = "INSERT INTO perfil (id_perfil, nickName, id_membresia) VALUES (?, ?, ?)";
-        Connection conn = Conexion.getCnx().getCnn();
-        PreparedStatement ps = conn.prepareStatement(sql);
+    public int insertar(Perfil p) throws SQLException {
+        String sql = "INSERT INTO perfil (nickName, id_membresia) VALUES (?, ?)";
         
-        ps.setInt(1, p.getId_perfil());
-        ps.setString(2, p.getNickName());
-        ps.setInt(3, p.getId_membresia());
-        return ps.executeUpdate() > 0;
+        Connection conn = Conexion.getCnx().getCnn();
+        PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        
+        ps.setString(1, p.getNickName());
+        ps.setInt(2, p.getId_membresia());
+        
+        int rows = ps.executeUpdate();
+        if (rows >0){
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()){
+                return rs.getInt(1);
+            }
+        }
+        return -1;
     }
     
     public boolean actualizar(Perfil p) throws SQLException {

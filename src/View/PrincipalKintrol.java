@@ -15,7 +15,10 @@ public class PrincipalKintrol extends javax.swing.JFrame {
      */
     public PrincipalKintrol() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.

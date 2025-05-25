@@ -51,12 +51,16 @@ public class GestionPerfiles extends javax.swing.JFrame {
     private void agregarPerfil() {
         try {
             Perfil p = new Perfil(
-                Integer.parseInt(idPerfilTextField.getText()),
+                0,
                 nickNameTextField.getText(),
                 Integer.parseInt(idMembresiaTextField.getText())
             );
-            if (controller.crearPerfil(p)) {
-                JOptionPane.showMessageDialog(this, "Membresía agregada correctamente");
+            
+            int idGenerado = controller.crearPerfil(p);
+            
+            if (idGenerado != -1) {
+                JOptionPane.showMessageDialog(this, "Perfil agregado correctamente");
+                idPerfilTextField.setText(String.valueOf(idGenerado));
                 listarPerfil();
             } else {
                 JOptionPane.showMessageDialog(this, "No se pudo agregar");
@@ -241,6 +245,11 @@ public class GestionPerfiles extends javax.swing.JFrame {
         volverGPButton.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         volverGPButton.setText("Volver");
         volverGPButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        volverGPButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                volverGPButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -456,6 +465,12 @@ public class GestionPerfiles extends javax.swing.JFrame {
         // TODO add your handling code here:
         eliminarPerfil.addActionListener(e -> eliminarPerfil());
     }//GEN-LAST:event_eliminarPerfilActionPerformed
+
+    private void volverGPButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_volverGPButtonActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        new PrincipalKintrol().setVisible(true);
+    }//GEN-LAST:event_volverGPButtonActionPerformed
 
     /**
      * @param args the command line arguments

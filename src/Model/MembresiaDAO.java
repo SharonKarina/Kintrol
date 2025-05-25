@@ -86,6 +86,65 @@ public class MembresiaDAO {
         return ps.executeUpdate() > 0;
     }
     
+    public boolean eliminarMembresiaYAdministrador(int idMembresia) {
+        Connection conn = null;
+        PreparedStatement psMembresia = null;
+        PreparedStatement psAdmin = null;
+        ResultSet rs = null;
+
+        try {
+            conn = Conexion.getCnx().getCnn();
+            conn.setAutoCommit(false); // transacción
+
+            // Obtener el id del administrador antes de eliminar la membresía
+            String obtenerAdmin = "SELECT id_administrador FROM membresias WHERE id_membresia = ?";
+            psMembresia = conn.prepareStatement(obtenerAdmin);
+            psMembresia.setInt(1, idMembresia);
+            rs = psMembresia.executeQuery();
+        
+            int idAdmin = -1;
+            if (rs.next()) {
+                idAdmin = rs.getInt("id_administrador");
+            }
+
+            // Eliminar la membresía
+            psMembresia.close();
+            String eliminarMembresia = "DELETE FROM membresias WHERE id_membresia = ?";
+            psMembresia = conn.prepareStatement(eliminarMembresia);
+            psMembresia.setInt(1, idMembresia);
+            psMembresia.executeUpdate();
+
+            // Eliminar el administrador si se obtuvo correctamente el ID
+            if (idAdmin != -1) {
+                psAdmin = conn.prepareStatement("DELETE FROM administrador WHERE id_administrador = ?");
+                psAdmin.setInt(1, idAdmin);
+                psAdmin.executeUpdate();
+            }
+
+            conn.commit();
+            return true;
+
+        } catch (SQLException e) {
+            try {
+                if (conn != null) conn.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (psMembresia != null) psMembresia.close();
+                if (psAdmin != null) psAdmin.close();
+                if (conn != null) conn.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    
     public boolean eliminar(int idMembresia) throws SQLException {
         String sql = "DELETE FROM membresias WHERE id_membresia=?";
         

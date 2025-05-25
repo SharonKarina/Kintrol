@@ -52,13 +52,9 @@ public class controllerMembresias {
         }
     }
 
-    public boolean eliminarMembresia(int id) {
-        try {
-            return dao.eliminar(id);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
+    public boolean eliminarConAdministrador(int idMembresia) {
+        MembresiaDAO dao = new MembresiaDAO();
+        return dao.eliminarMembresiaYAdministrador(idMembresia);
     }
 
     public Membresia obtenerMembresia(int id) {
